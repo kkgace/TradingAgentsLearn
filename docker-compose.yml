@@ -1,0 +1,36 @@
+# TradingAgents-Calv v3.0 | 教育用途，不构成投资建议
+services:
+  backend:
+    build:
+      context: ./backend
+    image: tradingagents-calv-backend:3.0
+    container_name: calv-backend
+    environment:
+      - JWT_SECRET=${JWT_SECRET:-calv-dev-secret-change-me}
+      - LLM_BASE_URL=${LLM_BASE_URL:-}
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
+      - TUSHARE_TOKEN=${TUSHARE_TOKEN:-}
+      - TUSHARE_API=${TUSHARE_API:-}
+      - TUSHARE_CODES=${TUSHARE_CODES:-}
+      - ENABLE_SCHEDULER=${ENABLE_SCHEDULER:-true}
+      - TRIGGER_POLL_SECONDS=${TRIGGER_POLL_SECONDS:-30}
+      - DATABASE_URL=sqlite:////data/calv.db
+    volumes:
+      - calv-data:/data
+    expose:
+      - "8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    image: tradingagents-calv-frontend:3.0
+    container_name: calv-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  calv-data:

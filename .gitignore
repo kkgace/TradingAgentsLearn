@@ -1,0 +1,16 @@
+# TradingAgents-Calv v3.0
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+dist/
+build/
+# 运行时产物：SQLite 库（含用户数据与界面配置的密钥）、日志，一律不入库
+backend/data/
+*.log
+.env
+.DS_Store
+smoke_*.log
+backend/build_errors.txt
+frontend/build_errors.txt
